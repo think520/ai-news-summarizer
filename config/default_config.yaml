@@ -1,0 +1,64 @@
+# Application configuration
+app:
+  name: "AI News Summarizer"
+  version: "1.0.0"
+  log_level: "INFO"
+
+# News sources configuration
+sources:
+  - type: "rss"
+    name: "aihot_virxact"
+    params:
+      url: "https://aihot.virxact.com/feed.xml"
+      max_items: 20
+      priority: 100
+      pre_summarized: true
+
+  - type: "rss"
+    name: "tech_news"
+    params:
+      url: "https://feeds.feedburner.com/TechCrunch/"
+      max_items: 10
+
+  - type: "rss"
+    name: "world_news"
+    params:
+      url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+      max_items: 10
+
+  - type: "rss"
+    name: "zhihu_tech"
+    params:
+      url: "https://rsshub.app/zhihu/posts/topstory/people-ize2i"
+      max_items: 5
+
+# LLM provider configuration
+llm:
+  default: "openai"
+
+  providers:
+    openai:
+      model: "MiniMax-M2.7"
+      api_key: "${OPENAI_API_KEY}"
+      base_url: "https://api.minimax.chat/v1"
+      max_tokens: 500
+      temperature: 0.3
+
+    anthropic:
+      model: "claude-3-haiku-20240307"
+      api_key: "${ANTHROPIC_API_KEY}"
+      max_tokens: 1024
+      temperature: 0.3
+
+    ollama:
+      model: "llama3"
+      base_url: "http://localhost:11434"
+      max_tokens: 500
+      temperature: 0.3
+
+# Summary generation configuration
+summary:
+  max_length: 5
+  style: "concise"
+  include_title: true
+  language: "zh"

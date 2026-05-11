@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晨&暮 · 每日简报</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ─── Variables ─── */
+        :root {
+            --bg: #FAF7F2;
+            --surface: #FFFFFF;
+            --surface-warm: #FFF9F3;
+            --border: #E8E0D5;
+            --text-primary: #2C2416;
+            --text-secondary: #6B5E4A;
+            --text-muted: #A8977D;
+            --accent: #C2410C;
+            --accent-light: #FFF0EB;
+            --accent-hover: #9A3412;
+            --success: #15803D;
+            --success-light: #F0FDF4;
+            --danger: #DC2626;
+            --danger-light: #FEF2F2;
+            --shadow-sm: 0 1px 3px rgba(44,36,22,0.06), 0 1px 2px rgba(44,36,22,0.04);
+            --shadow-md: 0 4px 12px rgba(44,36,22,0.10), 0 2px 4px rgba(44,36,22,0.06);
+            --shadow-lg: 0 8px 24px rgba(44,36,22,0.12), 0 4px 8px rgba(44,36,22,0.08);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --font-display: "Playfair Display", "Songti SC", "SimSun", serif;
+            --font-body: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+            --font-mono: "JetBrains Mono", "Fira Code", monospace;
+        }
+
+        /* ─── Reset ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: var(--accent-light); color: var(--accent); }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ─── Header ─── */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wordmark {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .wordmark-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .wordmark-title span {
+            color: var(--accent);
+        }
+
+        .wordmark-tagline {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .header-pill {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* ─── Hero Masthead ─── */
+        .masthead {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px 32px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .masthead-date-line {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-family: var(--font-body);
+        }
+
+        .masthead-title {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .masthead-title .accent {
+            color: var(--accent);
+        }
+
+        .masthead-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .masthead-divider {
+            width: 48px;
+            height: 2px;
+            background: var(--accent);
+            border: none;
+            margin: 0;
+        }
+
+        /* ─── Main Layout ─── */
+        .main-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 32px 64px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (max-width: 800px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+
+        /* ─── Config Sidebar ─── */
+        .sidebar {
+            position: sticky;
+            top: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .card-body { padding: 16px 18px; }
+
+        /* ─── Form Controls ─── */
+        .field { margin-bottom: 14px; }
+        .field:last-child { margin-bottom: 0; }
+
+        .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            letter-spacing: 0.3px;
+        }
+
+        select, input[type="url"], input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: var(--font-body);
+            color: var(--text-primary);
+            background: var(--bg);
+            transition: border-color 0.15s, box-shadow 0.15s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23A8977D' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 28px;
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.08);
+        }
+
+        input::placeholder { color: var(--text-muted); }
+
+        /* ─── Source Items ─── */
+        .sources-list { margin-bottom: 10px; }
+
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 6px;
+            transition: border-color 0.15s;
+        }
+
+        .source-item:hover { border-color: var(--text-muted); }
+
+        .source-badge {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .source-badge.rss { background: #FEF3C7; color: #92400E; }
+        .source-badge.scraper { background: #DBEAFE; color: #1E40AF; }
+
+        .source-item input[type="text"] {
+            border: none;
+            background: transparent;
+            padding: 3px 4px;
+            font-size: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .source-item input[type="text"]:focus {
+            outline: none;
+            background: var(--surface);
+            border-radius: 4px;
+            box-shadow: 0 0 0 2px rgba(194,65,12,0.08);
+        }
+
+        .source-remove {
+            width: 22px;
+            height: 22px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: background 0.15s, color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .source-remove:hover { background: var(--danger-light); color: var(--danger); }
+
+        .add-source-btn {
+            width: 100%;
+            padding: 8px;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .add-source-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 14px 0;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .single-url-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .single-url-row .field { flex: 1; margin-bottom: 0; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(194, 65, 12, 0.22);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 12px rgba(194, 65, 12, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            font-size: 12px;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+            border-color: var(--text-muted);
+        }
+
+        .btn-sm { padding: 7px 12px; font-size: 12px; }
+
+        /* ─── Results Column ─── */
+        .results-col {}
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .results-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* ─── Stats Pills ─── */
+        .stats-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 9px 14px;
+            flex: 1;
+            min-width: 100px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s;
+        }
+
+        .stat-pill:hover { box-shadow: var(--shadow-md); }
+
+        .stat-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .stat-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ─── Source Status Bar ─── */
+        .source-status-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .source-status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            box-shadow: var(--shadow-sm);
+            animation: slideInLeft 0.25s ease-out both;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-8px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .source-status-item:nth-child(1) { animation-delay: 0.05s; }
+        .source-status-item:nth-child(2) { animation-delay: 0.10s; }
+        .source-status-item:nth-child(3) { animation-delay: 0.15s; }
+        .source-status-item:nth-child(4) { animation-delay: 0.20s; }
+        .source-status-item:nth-child(5) { animation-delay: 0.25s; }
+
+        .source-status-item.success { border-left: 3px solid var(--success); }
+        .source-status-item.error { border-left: 3px solid var(--danger); }
+
+        .ss-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .source-status-item.success .ss-dot { background: var(--success); }
+        .source-status-item.error .ss-dot { background: var(--danger); }
+
+        .ss-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ss-url {
+            font-size: 10px;
+            color: var(--text-muted);
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: var(--font-mono);
+        }
+
+        .ss-count { color: var(--success); font-weight: 700; font-size: 12px; }
+        .ss-err { color: var(--danger); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+
+        /* ─── News Cards ─── */
+        .news-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+            animation: cardReveal 0.35s ease-out both;
+        }
+
+        @keyframes cardReveal {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .news-card:nth-child(1) { animation-delay: 0.08s; }
+        .news-card:nth-child(2) { animation-delay: 0.14s; }
+        .news-card:nth-child(3) { animation-delay: 0.20s; }
+        .news-card:nth-child(4) { animation-delay: 0.26s; }
+        .news-card:nth-child(5) { animation-delay: 0.32s; }
+        .news-card:nth-child(6) { animation-delay: 0.38s; }
+        .news-card:nth-child(n+7) { animation-delay: 0.44s; }
+
+        .news-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #D8D0C4;
+            transform: translateY(-2px);
+        }
+
+        .card-source-tag {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.45;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .card-url {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            word-break: break-all;
+            font-family: var(--font-mono);
+        }
+
+        .card-url a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .card-url a:hover { text-decoration: underline; }
+
+        .card-summary {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 500;
+            font-family: var(--font-mono);
+        }
+
+        .tag-model { background: var(--accent-light); color: var(--accent); }
+        .tag-tokens { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+
+        .card-open a {
+            font-size: 12px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+
+        .card-open a:hover { text-decoration: underline; }
+
+        /* ─── Empty State ─── */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .empty-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* ─── Error ─── */
+        .error-box {
+            background: var(--danger-light);
+            border: 1px solid #FCA5A5;
+            color: var(--danger);
+            padding: 11px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* ─── Loading ─── */
+        .loading {
+            text-align: center;
+            padding: 56px 20px;
+        }
+
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 2.5px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { font-size: 13px; color: var(--text-muted); }
+
+        /* ─── Footer ─── */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 32px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 40px;
+        }
+
+        .site-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .site-footer a:hover { text-decoration: underline; }
+
+        /* ─── Results Panel ─── */
+        .results-panel { display: none; }
+        .results-panel.active { display: block; }
+
+        /* ─── Animations for results ─── */
+        .results-panel.active .stats-bar .stat-pill {
+            animation: fadeInUp 0.3s ease-out both;
+        }
+
+        .results-panel.active .stats-bar .stat-pill:nth-child(1) { animation-delay: 0.05s; }
+        .results-panel.active .stats-bar .stat-pill:nth-child(2) { animation-delay: 0.10s; }
+        .results-panel.active .stats-bar .stat-pill:nth-child(3) { animation-delay: 0.15s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── Masthead accent ─── */
+        .accent-word {
+            position: relative;
+            display: inline-block;
+        }
+
+        .accent-word::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            opacity: 0.25;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="wordmark">
+                <span class="wordmark-title">晨<span>&</span>暮</span>
+                <span class="wordmark-tagline">每日简报</span>
+            </div>
+            <div class="header-right">
+                <span class="header-date" id="liveDate">2026年4月14日 · 10:56</span>
+                <span class="header-pill" id="todayPill">今日已抓 0 条</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Masthead -->
+    <section class="masthead">
+        <div class="masthead-date-line" id="mastheadDateLine">星期二 · 2026年4月14日</div>
+        <h1 class="masthead-title">
+            今日<span class="accent-word"><span class="accent">简报</span></span>
+        </h1>
+        <p class="masthead-meta" id="mastheadMeta">配置来源后，即可获取今日资讯摘要</p>
+        <hr class="masthead-divider">
+    </section>
+
+    <!-- Main Layout -->
+    <main class="main-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!-- Settings Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">参数设置</div>
+                </div>
+                <div class="card-body">
+                    <div class="field">
+                        <label class="field-label">LLM 提供商</label>
+                        <select id="provider">
+                            <option value="openai" selected>MiniMax (OpenAI 兼容)</option>
+                            <option value="anthropic">Claude (Anthropic)</option>
+                            <option value="ollama">Ollama (本地)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="field-label">每源最多条目</label>
+                        <select id="maxItems">
+                            <option value="5">5 条</option>
+                            <option value="10" selected>10 条</option>
+                            <option value="20">20 条</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="field-label">只看最近</label>
+                        <select id="maxHours">
+                            <option value="0">全部</option>
+                            <option value="24">24 小时内</option>
+                            <option value="72" selected>72 小时内</option>
+                            <option value="168">7 天内</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sources Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">新闻来源</div>
+                    <span id="sourceCount" style="font-size:10px;color:var(--text-muted)">0 个</span>
+                </div>
+                <div class="card-body">
+                    <div class="sources-list" id="sources-list"></div>
+                    <button class="add-source-btn" onclick="addSource()">
+                        <span>+</span> 添加来源
+                    </button>
+
+                    <hr class="divider">
+
+                    <div class="section-label">单篇 URL 摘要</div>
+                    <div class="single-url-row">
+                        <div class="field">
+                            <input type="url" id="singleUrl" placeholder="https://zhuanlan.zhihu.com/...">
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="fetchSingle()">获取</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">History</div>
+                </div>
+                <div class="card-body">
+                    <div class="single-url-row">
+                        <div class="field">
+                            <input type="text" id="historyQuery" placeholder="Search saved summaries, links, sources">
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="searchHistory()">Search</button>
+                    </div>
+                    <button class="add-source-btn" onclick="loadLatestHistory()" style="margin-top:10px">
+                        Load latest saved result
+                    </button>
+                </div>
+            </div>
+
+            <!-- Run Button -->
+            <button class="btn btn-primary" id="runBtn" onclick="runSummarize()">
+                <span>▶</span> 开始抓取并摘要
+            </button>
+
+            <div id="errorBox" class="error-box"></div>
+        </aside>
+
+        <!-- Results -->
+        <section class="results-col">
+            <div class="results-panel" id="results">
+                <div class="results-header">
+                    <div class="results-title">今日简报</div>
+                    <span class="results-count" id="resultsCount">0 条内容</span>
+                </div>
+
+                <div class="source-status-bar" id="sourceStatsBar"></div>
+
+                <div class="stats-bar" id="stats"></div>
+
+                <div id="cards"></div>
+            </div>
+
+            <div id="emptyState">
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <div class="empty-title">暂无内容</div>
+                    <div class="empty-desc">在左侧添加新闻来源，点击「开始抓取」获取今日资讯</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        Powered by AI · <a href="#">兴科的作品</a>
+    </footer>
+
+    <script>
+        // ─── Live Clock ───
+        function updateClock() {
+            const now = new Date();
+            const d = now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+            const t = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            const dow = now.toLocaleDateString('zh-CN', { weekday: 'long' });
+            document.getElementById('liveDate').textContent = `${d} · ${t}`;
+            document.getElementById('mastheadDateLine').textContent = `${dow} · ${d}`;
+        }
+        updateClock();
+        setInterval(updateClock, 30000); // update every 30s
+
+        // ─── Sources State ───
+        let sources = [
+            { type: 'rss', name: 'AIHot', url: 'https://aihot.virxact.com/feed.xml', max_items: 20, priority: 100, pre_summarized: true },
+            { type: 'rss', name: '凤凰网', url: 'http://news.ifeng.com/rss/', max_items: 10 },
+            { type: 'rss', name: 'IT之家', url: 'https://www.ithome.com/rss/', max_items: 10 },
+            { type: 'rss', name: '机器之心', url: 'https://www.jiqizhixin.com/feed', max_items: 10 },
+        ];
+
+        let lastFetchCount = 0;
+
+        function renderSources() {
+            const list = document.getElementById('sources-list');
+            const count = document.getElementById('sourceCount');
+            count.textContent = sources.length + ' 个';
+            list.innerHTML = sources.map((s, i) => `
+                <div class="source-item">
+                    <span class="source-badge ${s.type}">${s.type}</span>
+                    <input type="text" value="${esc(s.name)}" placeholder="名称"
+                           onchange="sources[${i}].name = this.value">
+                    <input type="text" value="${esc(s.url)}" placeholder="URL"
+                           onchange="sources[${i}].url = this.value">
+                    <button class="source-remove" onclick="removeSource(${i})" title="移除">×</button>
+                </div>
+            `).join('');
+        }
+
+        function esc(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function addSource() {
+            sources.push({ type: 'rss', name: '', url: '', max_items: 10 });
+            renderSources();
+        }
+
+        function removeSource(index) {
+            sources.splice(index, 1);
+            renderSources();
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('errorBox');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorBox').style.display = 'none';
+        }
+
+        function showResultsPanel() {
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('results').classList.add('active');
+        }
+
+        async function loadLatestHistory() {
+            hideError();
+            try {
+                const res = await fetch('/api/history/latest');
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to load history');
+                }
+                if (!data.results || data.results.length === 0) {
+                    return;
+                }
+                renderResults(data);
+                showResultsPanel();
+                lastFetchCount = data.total_fetched || 0;
+                document.getElementById('todayPill').textContent = `Cached ${lastFetchCount}`;
+                document.getElementById('mastheadMeta').textContent =
+                    `Loaded saved result without refetching · ${data.created_at || ''}`;
+            } catch (e) {
+                showError('History load failed: ' + e.message);
+            }
+        }
+
+        async function searchHistory() {
+            hideError();
+            const query = document.getElementById('historyQuery').value.trim();
+            try {
+                const res = await fetch('/api/history/search?q=' + encodeURIComponent(query));
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || 'History search failed');
+                }
+                if (!data.entries || data.entries.length === 0) {
+                    showError('No matching history results');
+                    return;
+                }
+                renderResults(data.entries[0]);
+                showResultsPanel();
+                document.getElementById('mastheadMeta').textContent =
+                    `Found ${data.count} saved result(s), showing the newest match`;
+            } catch (e) {
+                showError('History search failed: ' + e.message);
+            }
+        }
+
+        // ─── Source Stats ───
+        function renderSourceStats(stats) {
+            const bar = document.getElementById('sourceStatsBar');
+            if (!stats || stats.length === 0) {
+                bar.innerHTML = '';
+                return;
+            }
+            bar.innerHTML = stats.map((s, i) => {
+                if (s.status === 'success') {
+                    return `<div class="source-status-item success">
+                        <span class="ss-dot"></span>
+                        <span class="ss-name">${esc(s.name || '未知来源')}</span>
+                        <span class="ss-url">${esc(s.url || '')}</span>
+                        <span class="ss-count">✓ ${s.count} 条</span>
+                    </div>`;
+                } else {
+                    return `<div class="source-status-item error">
+                        <span class="ss-dot"></span>
+                        <span class="ss-name">${esc(s.name || '未知来源')}</span>
+                        <span class="ss-url">${esc(s.url || '')}</span>
+                        <span class="ss-err">✗ ${esc(s.error || '失败')}</span>
+                    </div>`;
+                }
+            }).join('');
+        }
+
+        // ─── Run Summarize ───
+        async function runSummarize() {
+            const btn = document.getElementById('runBtn');
+            const resultsPanel = document.getElementById('results');
+            const emptyState = document.getElementById('emptyState');
+
+            hideError();
+            resultsPanel.classList.remove('active');
+            emptyState.style.display = 'none';
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span> 处理中...';
+
+            const validSources = sources.filter(s => s.url.trim());
+            if (validSources.length === 0) {
+                showError('请至少添加一个有效的新闻来源 URL');
+                btn.disabled = false;
+                btn.innerHTML = '<span>▶</span> 开始抓取并摘要';
+                return;
+            }
+
+            const payload = new URLSearchParams();
+            payload.append('sources_json', JSON.stringify(validSources));
+            payload.append('provider', document.getElementById('provider').value);
+            payload.append('max_hours', document.getElementById('maxHours').value);
+            payload.append('max_items', document.getElementById('maxItems').value);
+
+            try {
+                const res = await fetch('/api/summarize', {
+                    method: 'POST',
+                    body: payload,
+                });
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    if (res.status === 429) {
+                        throw new Error('请求被限速（MiniMax API），请 10-15 秒后重试。减少条目数量也可能有帮助。');
+                    }
+                    throw new Error(data.error || '请求失败');
+                }
+
+                lastFetchCount = data.total_fetched || 0;
+                document.getElementById('todayPill').textContent = `今日已抓 ${lastFetchCount} 条`;
+                document.getElementById('mastheadMeta').textContent =
+                    `来自 ${data.source_stats ? data.source_stats.length : 0} 个来源 · 共抓取 ${lastFetchCount} 条内容`;
+
+                renderResults(data);
+                resultsPanel.classList.add('active');
+            } catch (e) {
+                showError('错误: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>▶</span> 开始抓取并摘要';
+            }
+        }
+
+        // ─── Single URL ───
+        async function fetchSingle() {
+            const url = document.getElementById('singleUrl').value.trim();
+            if (!url) {
+                showError('请输入文章链接');
+                return;
+            }
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            const payload = new URLSearchParams();
+            payload.append('url', url);
+            payload.append('source_type', 'scraper');
+
+            try {
+                const res = await fetch('/api/fetch-single', {
+                    method: 'POST',
+                    body: payload,
+                });
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || '获取失败');
+                }
+
+                const resultsPanel = document.getElementById('results');
+                const emptyState = document.getElementById('emptyState');
+                emptyState.style.display = 'none';
+                resultsPanel.classList.add('active');
+
+                document.getElementById('resultsCount').textContent = '1 条内容';
+
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-pill">
+                        <div class="stat-icon">📄</div>
+                        <div>
+                            <div class="stat-val">1</div>
+                            <div class="stat-lbl">文章</div>
+                        </div>
+                    </div>
+                    <div class="stat-pill">
+                        <div class="stat-icon">✓</div>
+                        <div>
+                            <div class="stat-val">${data.tokens || '—'}</div>
+                            <div class="stat-lbl">Tokens</div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('sourceStatsBar').innerHTML = '';
+
+                document.getElementById('cards').innerHTML = `
+                    <div class="news-card">
+                        <div class="card-source-tag">单篇</div>
+                        <div class="card-title">${esc(data.title || '无标题')}</div>
+                        ${data.url ? `<div class="card-url"><a href="${esc(data.url)}" target="_blank">${esc(data.url)}</a></div>` : ''}
+                        <div class="card-summary">${data.summary}</div>
+                        <div class="card-footer">
+                            <div class="card-tags">
+                                <span class="tag tag-model">${data.model || '—'}</span>
+                                <span class="tag tag-tokens">${data.tokens} tokens</span>
+                            </div>
+                            ${data.url ? `<div class="card-open"><a href="${esc(data.url)}" target="_blank">查看原文 →</a></div>` : ''}
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                showError('错误: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '获取';
+            }
+        }
+
+        // ─── Render Results ───
+        function renderResults(data) {
+            const totalFetched = data.total_fetched || 0;
+            const validCount = data.results.filter(r => r.summary && r.summary.length > 10).length;
+            const summarizedCount = data.results.length;
+            const sourceCount = data.source_stats ? data.source_stats.length : 0;
+
+            renderSourceStats(data.source_stats || []);
+
+            document.getElementById('resultsCount').textContent =
+                totalFetched > 0
+                    ? `抓取 ${totalFetched} 条 → 摘要 ${summarizedCount} 条`
+                    : `${summarizedCount} 条内容`;
+
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-pill">
+                    <div class="stat-icon">📥</div>
+                    <div>
+                        <div class="stat-val">${totalFetched}</div>
+                        <div class="stat-lbl">抓取条目</div>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-icon">✓</div>
+                    <div>
+                        <div class="stat-val">${validCount}</div>
+                        <div class="stat-lbl">有效摘要</div>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-icon">📡</div>
+                    <div>
+                        <div class="stat-val">${sourceCount}</div>
+                        <div class="stat-lbl">来源数量</div>
+                    </div>
+                </div>
+            `;
+
+            const cards = data.results
+                .filter(r => r.summary && r.summary.length > 10)
+                .map(r => `
+                    <div class="news-card">
+                        ${r.url ? `<div class="card-url"><a href="${esc(r.url)}" target="_blank">${esc(r.url)}</a></div>` : ''}
+                        <div class="card-summary">${r.summary}</div>
+                        <div class="card-footer">
+                            <div class="card-tags">
+                                <span class="tag tag-model">${r.model || '—'}</span>
+                                <span class="tag tag-tokens">${r.tokens} tokens</span>
+                            </div>
+                            ${r.url ? `<div class="card-open"><a href="${esc(r.url)}" target="_blank">查看原文 →</a></div>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+            document.getElementById('cards').innerHTML = cards || `
+                <div class="empty-state">
+                    <div class="empty-icon">${totalFetched === 0 ? '📡' : '📭'}</div>
+                    <div class="empty-title">${totalFetched === 0 ? 'RSS 抓取失败' : '没有符合条件的新闻'}</div>
+                    <div class="empty-desc">${
+                        totalFetched === 0
+                            ? '来源无内容返回，可能是链接失效或超时。请检查 RSS URL 是否有效。'
+                            : '将「只看最近」设为「全部」可查看历史条目'
+                    }</div>
+                </div>
+            `;
+        }
+
+        // Init
+        renderSources();
+        loadLatestHistory();
+    </script>
+</body>
+</html>
