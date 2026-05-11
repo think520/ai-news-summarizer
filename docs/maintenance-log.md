@@ -89,3 +89,9 @@
 - Made `RSSSource` accept dict-like feed and entry objects so the mocked RSS fixtures used in tests work the same way as real `feedparser` output.
 - Removed stale unused imports flagged by `ruff` in schemas, source base classes, scraper, and source tests.
 - Re-ran the full local check loop after the fix: `compileall`, `pytest`, and `ruff check` all pass.
+
+### 2026-05-11 README screenshot refresh
+
+- Re-captured `docs/assets/readme-example-homepage.png` from the current local UI so the GitHub example image matches the latest score and summary layout.
+- Expanded the README introduction to explain the scoring system and the LLM-generated summary flow more directly.
+- Updated the screenshot alt text so the example image describes the scoring + summary view instead of only the generic homepage.
