@@ -1,6 +1,5 @@
 """Web scraping news source."""
 
-from typing import Optional
 from urllib.parse import urljoin
 
 import httpx

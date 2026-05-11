@@ -98,6 +98,13 @@ class NewsProcessor:
         """Fetch items and summarize them."""
         items, source_stats = await self.fetch_all(max_items_per_source)
         summaries = await self.summarizer.summarize_batch(items)
+        summaries.sort(
+            key=lambda summary: (
+                summary.score or 0,
+                summary.metadata.get("source_priority") or 0,
+            ),
+            reverse=True,
+        )
         return ProcessingResult(
             summaries=summaries,
             source_stats=source_stats,

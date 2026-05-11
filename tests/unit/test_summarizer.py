@@ -23,11 +23,11 @@ class TestSummarizer:
 
     def test_build_prompt_respects_max_length(self, summarizer, sample_news_item):
         prompt = summarizer._build_prompt(sample_news_item)
-        assert "Use no more than 5 sentences." in prompt
+        assert "摘要不超过 5 句话" in prompt
 
     def test_build_prompt_uses_configured_language(self, summarizer, sample_news_item):
         prompt = summarizer._build_prompt(sample_news_item)
-        assert "Respond in Simplified Chinese." in prompt
+        assert "请使用简体中文" in prompt
 
     @pytest.mark.asyncio
     async def test_summarize_returns_summary(self, summarizer, sample_news_item):
@@ -46,3 +46,15 @@ class TestSummarizer:
         results = await summarizer.summarize_batch(sample_news_items)
         assert len(results) == len(sample_news_items)
         assert summarizer.llm.generate_with_usage.await_count == len(sample_news_items)
+
+    @pytest.mark.asyncio
+    async def test_pre_summarized_item_gets_score_from_llm_when_missing(self, summarizer, sample_news_item):
+        sample_news_item.metadata["pre_summarized"] = True
+        sample_news_item.metadata.pop("score", None)
+        summarizer.llm.generate_with_usage.return_value = ('{"score": 8.5}', 24)
+
+        result = await summarizer.summarize(sample_news_item)
+
+        assert result.score == 8.5
+        assert result.summary == sample_news_item.content
+        assert summarizer.llm.generate_with_usage.await_count == 1

@@ -1,7 +1,7 @@
 """Tests for news source modules."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from ai_news_summarizer.sources.rss import RSSSource
 from ai_news_summarizer.sources.scraper import WebScraperSource

@@ -1,7 +1,6 @@
 """Abstract base class for news sources."""
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from ai_news_summarizer.models.schemas import NewsItem
 

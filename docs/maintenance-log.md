@@ -46,3 +46,46 @@
 - Added `README.md` with setup, run, Docker, configuration, history-cache, and safety instructions.
 - Added `data/.gitkeep` so the runtime data directory exists without committing cached history.
 - Added `docs/roadmap-and-deployment-plan.md` to collect recommended product direction, engineering roadmap, and deployment phases.
+
+## 2026-05-11
+
+### Chinese UI and scoring pass
+
+- Localized the main web experience to Chinese, including the history panel, source controls, run button, and empty states.
+- Switched the visible app title and wordmark to a Chinese-facing brief format.
+- Added score badges to result cards and single-item views so recommendation scores are visible everywhere.
+- Kept score-based ordering in the UI, with source priority used as the tie-breaker.
+- Removed the pre-summarized score prefix from AIHot summaries so the score is shown as a separate field instead of duplicated in the text.
+
+### Source reliability pass
+
+- Updated the default source set so Phoenix News uses an RSSHub-backed feed with fallback URLs.
+- Updated Machine Heart to use its native RSS feed with a fallback URL.
+- Added fallback feed support to the RSS source loader so a source can try multiple URLs before failing.
+- Surface RSS source failures explicitly when a feed returns no items, which makes broken sources easier to spot in the UI.
+
+### History and metadata pass
+
+- Expanded saved history entries with source name, source priority, and pre-summarized flags.
+- History search now considers source metadata in addition to URLs, summaries, models, and scores.
+- Refresh still restores the latest saved result without refetching RSS.
+
+### 2026-05-11 scoring recovery pass
+
+- Removed the broken Phoenix News and Machine Heart RSS entries from the default source list and the sidebar UI.
+- Kept only AIHot and IT之家 in the default starter set so the app boots cleanly without broken source noise.
+- Changed the summarizer to emit and parse strict JSON for summary responses, which made score extraction much more reliable.
+- Added a separate scoring prompt for pre-summarized sources so AIHot now gets a real score even when the feed itself does not provide one.
+- Fixed the missing score normalization helpers that were breaking the new score path during runtime verification.
+
+### 2026-05-11 README and screenshot polish
+
+- Added `docs/assets/readme-example-homepage.png` as the GitHub example image for the current Chinese UI.
+- Rewrote `README.md` into a clean Chinese overview with setup, run, history cache, Docker, and default source notes.
+- Linked the README to the screenshot so the repository landing page now shows the finished UI state directly.
+
+### 2026-05-11 RSS compatibility and lint cleanup
+
+- Made `RSSSource` accept dict-like feed and entry objects so the mocked RSS fixtures used in tests work the same way as real `feedparser` output.
+- Removed stale unused imports flagged by `ruff` in schemas, source base classes, scraper, and source tests.
+- Re-ran the full local check loop after the fix: `compileall`, `pytest`, and `ruff check` all pass.

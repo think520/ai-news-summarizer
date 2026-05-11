@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from typing import Optional
-from urllib.parse import urlparse
 
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 
@@ -32,6 +31,7 @@ class Summary(BaseModel):
     original_url: Optional[HttpUrl] = Field(None, description="URL of the original article")
     summary: str = Field(..., description="Generated summary text")
     model: str = Field(..., description="LLM model used for generation")
+    score: Optional[float] = Field(None, description="Recommendation score from 0 to 10")
     created_at: datetime = Field(default_factory=datetime.now, description="Creation timestamp")
     token_usage: Optional[int] = Field(None, description="Token usage for this generation")
     metadata: dict = Field(default_factory=dict, description="Additional summary metadata")

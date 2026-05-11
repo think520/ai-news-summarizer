@@ -70,6 +70,8 @@ def search_history_entries(query: str, limit: int = 20) -> list[dict]:
                     str(result.get("summary") or ""),
                     str(result.get("model") or ""),
                     str(result.get("score") or ""),
+                    str(result.get("source") or ""),
+                    str(result.get("source_priority") or ""),
                 ]
             )
         for stat in entry.get("source_stats", []):
@@ -130,7 +132,10 @@ def serialize_result(result: ProcessingResult) -> dict:
                 "summary": item.summary,
                 "model": item.model,
                 "tokens": item.token_usage or 0,
-                "score": item.metadata.get("score"),
+                "score": item.score,
+                "source": item.metadata.get("source"),
+                "source_priority": item.metadata.get("source_priority", 0),
+                "pre_summarized": item.metadata.get("pre_summarized", False),
             }
             for item in result.summaries
         ],
@@ -181,6 +186,13 @@ async def summarize(
         filtered_items = filter_recent_items(items, max_hours)
         unique_items = dedupe_items(filtered_items)
         summaries = await processor.summarizer.summarize_batch(unique_items)
+        summaries.sort(
+            key=lambda summary: (
+                summary.score or 0,
+                summary.metadata.get("source_priority") or 0,
+            ),
+            reverse=True,
+        )
         result = ProcessingResult(
             summaries=summaries,
             source_stats=source_stats,
@@ -206,7 +218,7 @@ async def summarize(
 async def fetch_single(url: str = Form(...), source_type: str = Form("scraper")) -> JSONResponse:
     """Fetch and summarize a single URL."""
     if source_type != "scraper":
-        return JSONResponse({"error": "Only scraper mode is supported for single URL requests."}, status_code=400)
+        return JSONResponse({"error": "单篇链接模式目前只支持网页抓取器。"}, status_code=400)
 
     source = WebScraperSource(name="single", url=url)
     prepared = None
@@ -228,6 +240,7 @@ async def fetch_single(url: str = Form(...), source_type: str = Form("scraper"))
             "content": items[0].content[:500] + "..." if len(items[0].content) > 500 else items[0].content,
             "summary": summary.summary,
             "model": summary.model,
+            "score": summary.score,
             "tokens": summary.token_usage,
         }
         save_history_entry(
@@ -243,8 +256,8 @@ async def fetch_single(url: str = Form(...), source_type: str = Form("scraper"))
                         "url": payload["url"],
                         "summary": payload["summary"],
                         "model": payload["model"],
+                        "score": payload["score"],
                         "tokens": payload["tokens"] or 0,
-                        "score": None,
                     }
                 ],
                 "source_stats": [

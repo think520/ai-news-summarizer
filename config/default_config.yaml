@@ -7,7 +7,7 @@ app:
 # News sources configuration
 sources:
   - type: "rss"
-    name: "aihot_virxact"
+    name: "AIHot"
     params:
       url: "https://aihot.virxact.com/feed.xml"
       max_items: 20
@@ -15,22 +15,11 @@ sources:
       pre_summarized: true
 
   - type: "rss"
-    name: "tech_news"
+    name: "IT之家"
     params:
-      url: "https://feeds.feedburner.com/TechCrunch/"
+      url: "https://www.ithome.com/rss/"
       max_items: 10
-
-  - type: "rss"
-    name: "world_news"
-    params:
-      url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
-      max_items: 10
-
-  - type: "rss"
-    name: "zhihu_tech"
-    params:
-      url: "https://rsshub.app/zhihu/posts/topstory/people-ize2i"
-      max_items: 5
+      priority: 60
 
 # LLM provider configuration
 llm:
